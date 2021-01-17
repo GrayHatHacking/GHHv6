@@ -1,0 +1,18 @@
+---
+- name: Checkout responder
+  git:
+     repo: https://github.com/lgandx/Responder.git
+     dest: /home/kali/responder
+- name: checkout evilwinrm
+  git:
+     repo: https://github.com/Hackplayers/evil-winrm.git
+     dest: /home/kali/evil-winrm
+- name: Make Binaries dir
+  file:
+          path: /home/kali/Binaries
+          state: directory
+- name: Copy Binaries dir from Util
+  shell: smbget -U 'Administrator%GrayHatHack1ng!' -R -n smb://10.0.0.30/C$/Sharp/Binaries
+  args:
+          chdir: /home/kali/Binaries
+
