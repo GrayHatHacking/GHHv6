@@ -1,0 +1,52 @@
+{
+    "variables": {
+        "name": "ghh-server2016-{{timestamp}}",
+        "aws_region": "us-east-1",
+        "aws_instance_type": "m3.large",
+        "description": "GHH-Server-2016"
+    },
+    "builders": [
+        {
+            "name": "{{user `name`}}",
+	    "profile": "ghh",
+            "type": "amazon-ebs",
+
+            "communicator": "winrm",
+            "winrm_username": "Administrator",
+            "ami_name": "{{user `name`}}",
+            "ami_description": "{{user `description`}}",
+            "region": "{{user `aws_region`}}",
+            "instance_type": "{{user `aws_instance_type`}}",
+            "availability_zone": "us-east-1a",
+            "encrypt_boot": false,
+            "launch_block_device_mappings": [
+                {
+                    "device_name": "/dev/sda1",
+                    "volume_type": "gp2",
+                    "volume_size": 30,
+                    "delete_on_termination": true
+                }
+            ],
+            "source_ami_filter": {
+                "filters": {
+                    "virtualization-type": "hvm",
+                    "root-device-type": "ebs",
+                    "name": "Windows_Server-2016-English-Full-Base-*",
+                    "owner-alias": "amazon",
+                    "architecture": "x86_64"
+                },
+                "owners": [
+                    "801119661308"
+                ],
+                "most_recent": true
+            },
+            "user_data_file": "user_data.ps1"
+        }  
+    ],
+    "provisioners": [
+        {
+            "type": "powershell",
+            "script": "bootstrap.ps1"
+        }
+    ]
+}
