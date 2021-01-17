@@ -1,4 +1,0 @@
-still need to make ec2 key pair
-
-aws ec2 import-key-pair --key-name ghh --public-key-material file://~/.ssh/id_rsa.pub --profile=ghh -
--region=us-east-1
