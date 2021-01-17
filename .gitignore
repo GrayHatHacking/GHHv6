@@ -1,3 +1,4 @@
 *.tfstate*
+**/.terraform.lock.hcl
 *.tvars
 **/.terraform
