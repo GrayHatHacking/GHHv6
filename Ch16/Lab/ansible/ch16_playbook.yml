@@ -22,6 +22,7 @@
     - vars/vars.yml
     - vars/users.yml
 - hosts: kali 
+  become: yes
   roles:
     - kali_customizations
   vars_files:
