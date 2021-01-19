@@ -1,4 +1,20 @@
 ---
+- name: Make  python3 default
+  alternatives:
+     name: python
+     path: /usr/bin/python3
+     link: /usr/bin/python
+     priority: 10
+- name : disable apache2 startup
+  systemd: 
+     enabled: no
+     name: apache2
+     state: stopped
+- name : disable smbdstartup
+  systemd: 
+     enabled: no
+     name: smbd
+     state: stopped
 - name: Checkout responder
   git:
      repo: https://github.com/lgandx/Responder.git
@@ -7,6 +23,10 @@
   git:
      repo: https://github.com/Hackplayers/evil-winrm.git
      dest: /home/kali/evil-winrm
+- name: checkout impacket
+  git:
+     repo: https://github.com/SecureAuthCorp/impacket.git
+     dest: /home/kali/impacket
 - name: Make Binaries dir
   file:
           path: /home/kali/Binaries
