@@ -27,6 +27,11 @@
   git:
      repo: https://github.com/SecureAuthCorp/impacket.git
      dest: /home/kali/impacket
+- name: install evil-winrm gem
+  gem:
+          name: evil-winrm
+          user_install: no
+          state: latest
 - name: Make Binaries dir
   file:
           path: /home/kali/Binaries
