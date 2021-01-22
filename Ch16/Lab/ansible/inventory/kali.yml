@@ -1,6 +1,0 @@
-kali:
-   hosts:
-     54.158.153.73:
-   vars:
-     ansible_user: kali
-     ansible_python_interpreter: /usr/bin/python3
