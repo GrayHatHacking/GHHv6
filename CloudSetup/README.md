@@ -16,13 +16,10 @@ AWS Cli (https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.ht
 
    If you are using Amazon CloudShell, run these commands
 ```
-wget https://releases.hashicorp.com/terraform/0.12.2/terraform_0.12.2_linux_amd64.zip     
-sudo unzip ./terraform_0.12.2_linux_amd64.zip -d /usr/local/bin     
-sudo yum install -y yum-utils     
-sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo     
-sudo yum install -y packer jq      
-sudo alternatives --set python /usr/bin/python3.7      
-sudo pip3 install ansible       
+git clone https://github.com/GrayHatHacking/GHHv6.git    
+cd GHHv6/CloudSetup
+bash install-cloud-tools.sh    
+. .bash_profile     
 ```
  
 4. In the AWS console, go to "My Security Credentials"<BR>
