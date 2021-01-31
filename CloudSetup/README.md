@@ -35,10 +35,12 @@ sudo pip3 install ansible
 5. Open the file in an editor, then open a console window and type in:
    `aws configure` <BR>
 ![AWS configure Image](https://github.com/GrayHatHacking/GHHv6/blob/main/CloudSetup/images/aws-signup-4.png) <BR>
-   Add the access key and the secret key from the file to the configuration and choose `us-east-1` for the region.<BR
+   Add the access key and the secret key from the file to the configuration and choose `us-east-1` for the region.<BR>
    this region has all the AWS features we will need, so it is a safe default. For default output format, choose `json`.
    
-6. run the `provision.sh` file. This will create all of the necessary roles and permissions that will be needed for the
+6. Execute a git clone of this repository:    
+   `git clone https://github.com/GrayHatHacking/GHHv6.git`   
+    Change directory into the CloudSetup directory and then run the `provision.sh` file. This will create all of the necessary roles and permissions that will be needed for the
 exercises in the book. It will create a new user called `ghh` and a new profile called `ghh` so that all of the examples
    will work without modification.
    
