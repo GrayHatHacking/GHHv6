@@ -51,7 +51,7 @@ generate a new key pair. The result should be a file in `~/.ssh/` called `id_rsa
 8. Create the keypair in AWS:<BR>
 `aws ec2 import-key-pair --key-name ghh --public-key-material fileb://~/.ssh/id_rsa.pub --profile=ghh --region=us-east-1`
    
-9. Run `build-images.sh` to build the base images for the rest of the exercises.
+9. Run `build-images.sh` to build the base images for the rest of the exercises. This will take a few minutes to an hour.  
 
 
    
