@@ -35,7 +35,7 @@ generate a new key pair. The result should be a file in `~/.ssh/` called `id_rsa
    These files will be used to generate a key for use in AWS to SSH from and will make the rest of the examples easier.
    
 8. Create the keypair in AWS:<BR>
-`aws ec2 import-key-pair --key-name ghh --public-key-material file://~/.ssh/id_rsa.pub --profile=ghh --region=us-east-1`
+`aws ec2 import-key-pair --key-name ghh --public-key-material fileb://~/.ssh/id_rsa.pub --profile=ghh --region=us-east-1`
    
 9. Run `build-images.sh` to build the base images for the rest of the exercises.
 
