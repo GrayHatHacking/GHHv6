@@ -15,7 +15,7 @@ AWS Cli (https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.ht
    jq (apt-get install jq or https://stedolan.github.io/jq/)
 
    If you are using Amazon CloudShell, run these commands
-`  
+```
 wget https://releases.hashicorp.com/terraform/0.12.2/terraform_0.12.2_linux_amd64.zip     
 sudo unzip ./terraform_0.12.2_linux_amd64.zip -d /usr/local/bin     
 sudo yum install -y yum-utils     
@@ -23,7 +23,7 @@ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinu
 sudo yum install -y packer jq      
 sudo alternatives --set python /usr/bin/python3.7      
 sudo pip3 install ansible       
-`
+```
  
 4. In the AWS console, go to "My Security Credentials"<BR>
 ![My Security Credential Image](https://github.com/GrayHatHacking/GHHv6/blob/main/CloudSetup/images/aws-signup-1.png) <BR>
