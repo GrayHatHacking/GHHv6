@@ -1,0 +1,13 @@
+---
+- hosts: target
+  roles:
+    - common
+    - target_customizations
+  vars_files:
+    - vars/vars.yml
+- hosts: kali 
+  become: yes
+  roles:
+    - kali_customizations
+  vars_files:
+    - vars/vars.yml
