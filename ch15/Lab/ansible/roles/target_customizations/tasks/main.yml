@@ -1,0 +1,37 @@
+---
+- name: install dotnet core
+  win_feature:
+          name: Net-Framework-Core
+          state: present
+- name: chocolatey install git
+  win_chocolatey:
+          name: git
+          state: latest
+          #- name: chocolatey install Visual Studio
+          #win_chocolatey:
+          #name: visualstudio2019community
+          #package_params: "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.Net.Component.3.5.DeveloperTools"
+          #state: latest
+          #- name: Reboot to fix stuff
+          #win_reboot:
+- name: Enable File sharing
+  win_shell:  netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
+- name: Ensure user target is present
+  win_user:
+     name: target
+     password: Winter2021!
+     state: present
+     groups:
+     - Users
+     - Administrators
+- name: Set Script Execution Policy
+  win_command: powershell.exe -
+  args: 
+        stdin: Set-ExecutionPolicy -ExecutionPolicy Restricted -Scope LocalMachine -Force
+  ignore_errors: yes
+- name: Set SMBV1 Support
+  win_command: powershell.exe -
+  args: 
+        stdin: Set-SmbClientConfiguration -EnableInsecureGuestLogons  $true -Force
+
+
