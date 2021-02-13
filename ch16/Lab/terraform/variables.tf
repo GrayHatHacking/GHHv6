@@ -24,3 +24,9 @@ variable "key_name" {
 description = "Key name for SSHing into EC2"
 default = "ghh"
 }
+
+variable "ip_allowlist" {
+  description = "A list of CIDRs that will be allowed to access the EC2 instances"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
