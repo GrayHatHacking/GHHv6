@@ -16,7 +16,7 @@
     triggers:
     - type: registration
       repetition: 
-       - interval: PT1M
+        interval: PT1M
     username: "GHH\\target"
     password: "Winter2021!"
     logon_type: password
@@ -31,7 +31,7 @@
     triggers:
     - type: registration
       repetition: 
-       - interval: PT1M
+         interval: PT1M
     username: "GHH\\target"
     password: "Winter2021!"
     logon_type: password
