@@ -1,5 +1,5 @@
 #!/bin/bash
-pip3 install --user ansible
+pip3 install --user ansible pywinrm
 wget https://releases.hashicorp.com/terraform/0.14.5/terraform_0.14.5_linux_amd64.zip
 wget https://releases.hashicorp.com/packer/1.6.6/packer_1.6.6_linux_amd64.zip
 unzip terraform*.zip -d ~/.local/bin/
