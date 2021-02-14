@@ -9,6 +9,7 @@
     - vars/vars.yml
     - vars/users.yml
 - hosts: target
+  gather_facts: yes
   roles:
     - common
     - windows_client_join_domain
