@@ -50,7 +50,7 @@
      state: present
      update_cache: yes
   retries: 3
-- name: Install powershell-epmire
+- name: Install powershell-empire
   apt:
      name: powershell-empire
      state: present
