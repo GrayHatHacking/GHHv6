@@ -101,7 +101,7 @@ resource "aws_security_group" "allow-ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.ip_allowlist
   }
 
   tags = {
@@ -136,14 +136,14 @@ resource "aws_security_group" "ghh_windows" {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.ip_allowlist
   }
 
   ingress {
     from_port   = 5985
     to_port     = 5986
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.ip_allowlist
   }
 
   tags = {
