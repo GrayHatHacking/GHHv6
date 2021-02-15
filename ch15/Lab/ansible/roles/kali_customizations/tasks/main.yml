@@ -50,6 +50,12 @@
      state: present
      update_cache: yes
   retries: 3
+- name: Install powershell-epmire
+  apt:
+     name: powershell-empire
+     state: present
+     update_cache: yes
+  retries: 3
 
 - name: Copy amsi script
   copy:
