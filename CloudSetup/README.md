@@ -1,5 +1,5 @@
 ###### Cloud Setup Instructions
-1. Signup for an AWS account<BR>
+1. Signup for an AWS account   
 Go to https://aws.amazon.com and signup for a new account
 
 2. These have been designed to run under a *nix installation. This can be done with a downloaded Kali (https://www.kali.org/downloads/)
@@ -7,11 +7,11 @@ installation, your favorite *nix implementation of choice, or Windows Subsystem 
    (https://docs.microsoft.com/en-us/windows/wsl/install-win10). 
    Alternatively, if you want to do this all in the cloud, once you've signed into your account go to Amazon CloudShell. If you do this, make sure it has its own tab, you will need to copy/paste information from other pages in the Amazon AWS console.
 
-3. Install the following items:<BR>
-AWS Cli (https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html) <BR>
-   Packer (https://learn.hashicorp.com/tutorials/packer/getting-started-install)<BR>
-   Terraform (https://learn.hashicorp.com/tutorials/terraform/install-cli)
-   Ansible (https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) <BR>
+3. Install the following items:    
+AWS Cli (https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html)     
+   Packer (https://learn.hashicorp.com/tutorials/packer/getting-started-install)     
+   Terraform (https://learn.hashicorp.com/tutorials/terraform/install-cli     
+   Ansible (https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)     
    jq (apt-get install jq or https://stedolan.github.io/jq/)
 
    If you are using Amazon CloudShell, run these commands
@@ -20,6 +20,15 @@ git clone https://github.com/GrayHatHacking/GHHv6.git
 cd GHHv6/CloudSetup
 bash install-cloud-tools.sh    
 . ~/.bash_profile     
+```
+   If you are using Kali Linux, run these commands
+```
+git clone https://github.com/GrayHatHacking/GHHv6.git      
+sudo apt-get update   
+sudo apt-get install awscli packer software-properties-common ansible jq   
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -   
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com buster main"   
+sudo apt-get update && sudo apt-get install terraform   
 ```
  
 4. In the AWS console, go to "My Security Credentials"<BR>

@@ -1,4 +1,4 @@
-# Gray Hat Hacking v5 Lab 16
+# Gray Hat Hacking v6 Lab 16
 This directory contains all the components necessary for Lab 16.
 
 ## Lab Information  
