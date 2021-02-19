@@ -1,0 +1,7 @@
+---
+# need to wrap an if statement around this one
+# make it windows specific
+- name : Disable Windows Firewall
+  win_firewall:
+          state: disabled
+- include: chocolatey-components.yml

@@ -1,0 +1,71 @@
+---
+- name: Make  python3 default
+  alternatives:
+     name: python
+     path: /usr/bin/python3
+     link: /usr/bin/python
+     priority: 10
+- name : disable apache2 startup
+  systemd: 
+     enabled: no
+     name: apache2
+     state: stopped
+- name : disable smbdstartup
+  systemd: 
+     enabled: no
+     name: smbd
+     state: stopped
+- name: checkout evilwinrm
+  git:
+     repo: https://github.com/Hackplayers/evil-winrm.git
+     dest: /home/kali/evil-winrm
+- name: checkout impacket
+  git:
+     repo: https://github.com/SecureAuthCorp/impacket.git
+     dest: /home/kali/impacket
+- name: checkout empire
+  git:
+     repo: https://github.com/BC-SECURITY/Empire.git
+     dest: /home/kali/empire
+- name: checkout PowerSploit
+  git:
+     repo: https://github.com/PowerShellMafia/PowerSploit.git
+     dest: /home/kali/PowerSploit
+- name: install evil-winrm gem
+  gem:
+          name: evil-winrm
+          user_install: no
+          state: latest
+- name: Add Microsoft key
+  apt_key:
+     url: https://packages.microsoft.com/keys/microsoft.asc
+     state: present
+- name: Add Microsoft repo
+  apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-buster-prod buster main
+    state: present
+- name: Install powershell
+  apt:
+     name: powershell
+     state: present
+     update_cache: yes
+  retries: 3
+- name: Install powershell-empire
+  apt:
+     name: powershell-empire
+     state: present
+     update_cache: yes
+  retries: 3
+
+- name: Copy amsi script
+  copy:
+      src: ../files/amsi.ps1
+      dest: /home/kali/amsi.ps1
+      owner: kali
+      mode: '0644'
+- name: Copy mimikatz script
+  copy:
+      src: "../files/Invoke-Mimikatz.ps1"
+      dest: "/home/kali/Invoke-Mimikatz.ps1"
+      owner: kali
+      mode: '0644'
