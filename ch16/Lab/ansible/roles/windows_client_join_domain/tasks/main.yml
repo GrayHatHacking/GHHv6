@@ -12,7 +12,7 @@
     dns_domain_name: "{{ windows_domain_controller_info['dns_domain_name'] }}"
     domain_admin_user: "{{ windows_domain_controller_info['domain_admin_user'] }}"
     domain_admin_password: "{{ windows_domain_controller_info['domain_admin_password'] }}"
-    hostname: ws{{ (ansible_ip_addresses|ansible.netcommon.ipv4)[0].split(".")[3]}}
+    hostname: ws20
     state: domain
   register: domain_state
 
