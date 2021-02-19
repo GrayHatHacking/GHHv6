@@ -1,5 +1,5 @@
-# Gray Hat Hacking v6 Lab 16
-This directory contains all the components necessary for Lab 16.
+# Gray Hat Hacking v6 Chapter 16
+This directory contains all the components necessary for Chapter 16.
 
 ## Lab Information  
 The following VMs will be setup for this lab:
