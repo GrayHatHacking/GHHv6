@@ -1,9 +1,12 @@
 #!/bin/bash
-
+PACKER=/usr/bin/packer
+if [  -f ~/.local/bin/packer ] ; then 
+	PACKER=~/.local/bin/packer
+fi
 cd kali-base
-/usr/bin/packer build kali.json
+$PACKER build kali.json
 cd ../server-2016-base
-/usr/bin/packer build server2016_template.json
+$PACKER build server2016_template.json
 cd ../server-2019-base
-/usr/bin/packer build server2019_template.json
+$PACKER build server2019_template.json
 cd ..

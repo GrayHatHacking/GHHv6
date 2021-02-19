@@ -1,0 +1,47 @@
+---
+- name: Update Local Security Policy to allow users to run scheduled tasks
+  win_user_right:
+    name: SeBatchLogonRight
+    users:
+    - GHH\target
+    action: add
+
+- name: Add scheduled task for Kali access
+  win_scheduled_task:
+    name: ResponderPing
+    enabled: yes
+    actions:
+      - path: powershell.exe
+        arguments: -exec bypass -win hidden -nopro -command "Get-ChildItem //10.0.0.40/qq"
+    triggers:
+    - type: registration
+      repetition: 
+        interval: PT1M
+    username: "GHH\\target"
+    password: "Winter2021!"
+    logon_type: password
+    update_password: yes
+- name: Add scheduled task for inveigh
+  win_scheduled_task:
+    name: InveighPing
+    enabled: yes
+    actions:
+      - path: powershell.exe
+        arguments: -exec bypass -win hidden -nopro -command "Get-ChildItem //10.0.0.30/qq"
+    triggers:
+    - type: registration
+      repetition: 
+         interval: PT1M
+    username: "GHH\\target"
+    password: "Winter2021!"
+    logon_type: password
+    update_password: yes
+- name: Add target to local Administrators
+  win_group_membership:
+          name: Administrators
+          state: present
+          members:
+                  - GHH\target
+
+    
+

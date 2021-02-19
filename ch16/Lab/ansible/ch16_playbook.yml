@@ -1,0 +1,31 @@
+---
+- hosts: dc
+  roles:
+    - common
+    - windows_dns_server
+    - windows_domain_controller
+    - windows_domain_users_groups
+  vars_files:
+    - vars/vars.yml
+    - vars/users.yml
+- hosts: target
+  gather_facts: yes
+  roles:
+    - common
+    - windows_client_join_domain
+    - target_customizations
+  vars_files:
+    - vars/vars.yml
+- hosts: util
+  roles:
+    - util_customizations
+  vars_files:
+    - vars/vars.yml
+    - vars/users.yml
+- hosts: kali 
+  become: yes
+  roles:
+    - kali_customizations
+  vars_files:
+    - vars/vars.yml
+    - vars/users.yml
