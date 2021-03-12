@@ -13,7 +13,7 @@ EOF
 resource "aws_instance" "kali" {
   ami           = data.aws_ami.ghh-kali.id
   instance_type = "t2.large"
-  key_name = var.key_name
+  key_name      = var.key_name
 
   subnet_id = aws_subnet.this.id
 
