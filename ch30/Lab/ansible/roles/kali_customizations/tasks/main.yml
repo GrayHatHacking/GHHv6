@@ -1,0 +1,50 @@
+---
+- name: Make python3 default
+  alternatives:
+     name: python
+     path: /usr/bin/python3
+     link: /usr/bin/python
+     priority: 10
+
+- name: Remove old docker versions
+  apt:
+    name: "{{kali.uninstall_items}}"
+    state: absent
+
+- name: Install required system packages
+  apt:
+    name: "{{kali.install_items}}"
+    update_cache: yes
+    state: present
+
+- name: Add Docker GPG apt key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Add Docker Repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian buster stable
+    state: present
+
+- name: Update apt and install docker-ce
+  apt:
+    update_cache: yes
+    name: docker-ce
+    state: latest
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Install docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.28.4/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
+
+- name: Add kali user to group
+  user: 
+    name: kali
+    groups: [docker]
+    append: yes

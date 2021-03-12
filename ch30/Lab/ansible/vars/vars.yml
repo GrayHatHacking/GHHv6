@@ -1,0 +1,15 @@
+kali:
+  uninstall_items: 
+    - docker
+    - docker-engine
+    - docker.io
+    - containerd
+    - runc
+  install_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg-agent
+    - software-properties-common
+    - jq
+    
