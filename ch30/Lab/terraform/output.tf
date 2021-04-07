@@ -8,7 +8,7 @@ resource "local_file" "kali_inv" {
     vars = [
       "ansible_user: kali",
       "ansible_python_interpreter: /usr/bin/python3",
-      "ansible_ssh_private_key_file: /home/kali/.ssh/id_rsa.pem"
+      "ansible_ssh_private_key_file: /home/kali/.ssh/id_rsa"
       ]
   }
   )
@@ -30,7 +30,7 @@ resource "local_file" "docker" {
     vars = [
       "ansible_user: ubuntu",
       "ansible_python_interpreter: /usr/bin/python3",
-      "ansible_ssh_private_key_file: /home/kali/.ssh/id_rsa.pem"
+      "ansible_ssh_private_key_file: /home/kali/.ssh/id_rsa"
       ]
   }
   )
