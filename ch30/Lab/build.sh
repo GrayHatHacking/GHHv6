@@ -2,6 +2,7 @@
 
 echo "[+] Building out the targets with Terraform"
 cd terraform
+terraform init
 terraform apply -auto-approve
 cd ..
 
