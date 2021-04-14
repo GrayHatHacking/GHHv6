@@ -51,7 +51,7 @@
 
 - name: Add kali user to group
   user: 
-    name: kali
+    name: ubuntu
     groups: [docker]
     append: yes
 
@@ -64,8 +64,9 @@
   copy:
      src: override.conf
      dest: /etc/systemd/system/docker.service.d/override.conf
-  notify:
-    - restart docker
+
+- name: Hack to restart Docker manually because notify is not working
+  raw: "systemctl restart docker"
 
 - name: Create the directory for Targets
   ansible.builtin.file:

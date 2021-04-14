@@ -5,7 +5,7 @@ This directory contains the components to build the labs for Chapter 30.
 The following VMs will be setup for this lab:
 - Docker Host
   - IP: 10.0.0.50
-  - Docker User: ec2-user
+  - Docker User: ubuntu
   - Docker Password: SSH key setup with the lab
 - Kali Computer
   - IP: 10.0.0.40
@@ -30,7 +30,7 @@ Once the build.sh script is completed, it should print the IP addresses of the
 hosts out to the screen. If you forget these IP addresses, you can go into the
 terraform directory in the lab and type in "terraform show" and it will show
 you the status of your lab as well as show you the IP addresses of the relevant
-boxes
+boxes.
 
 ## What does each machine do?
 
