@@ -65,7 +65,10 @@
      src: override.conf
      dest: /etc/systemd/system/docker.service.d/override.conf
 
-- name: Hack to restart Docker manually because notify is not working
+- name: Requirement to re-reload the system daemon process
+  raw: "systemctl daemon-reload"
+
+- name: Hack to restart Docker manually because system-reload changed
   raw: "systemctl restart docker"
 
 - name: Create the directory for Targets
@@ -81,8 +84,14 @@
 - name: Build Containers
   raw: "cd /home/ubuntu/targets; docker-compose build"
 
-- name: Start containers
+- name: Start containers\
   raw: "cd /home/ubuntu/targets; docker-compose up -d"
 
-- name: Run a curl statement to bring up the system initially
-  raw: "curl http://localhost"
+- name: Pause for Containers....
+  pause:
+    seconds: 30
+
+- name: Check that you can connect (GET) to a page and it returns a status 200
+  uri:
+    url: http://localhost
+
