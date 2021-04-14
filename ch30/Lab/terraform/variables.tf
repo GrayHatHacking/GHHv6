@@ -13,7 +13,7 @@ variable "shared_credentials_file" {
 
 variable "key_path" {
 description = "Key path for SSHing into EC2"
-default  = "/home/kali/.ssh/id_rsa.pem"
+default  = "/home/kali/.ssh/id_rsa"
 }
 
 variable "key_name" {
