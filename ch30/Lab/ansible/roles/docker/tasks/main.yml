@@ -83,3 +83,6 @@
 
 - name: Start containers
   raw: "cd /home/ubuntu/targets; docker-compose up -d"
+
+- name: Run a curl statement to bring up the system initially
+  raw: "curl http://localhost"
