@@ -60,7 +60,7 @@ class Fuzzer(fuzzer.Fuzzer):
         self.discovered_msrs = dict()
 
     def flip_bits(self, data, bits):
-        bitlens = zip(*enumerate(range(bits - 1, 0, -1), 1))
+        bitlens = zip(*((x, (bits-x) ** 6) for x in range(1, bits)))
         mask = self.rand.getrandbits(self.rand.choices(*bitlens)[0])
         return data ^ ROR(mask, self.rand.randint(0, bits), bits)
 
@@ -70,7 +70,8 @@ class Fuzzer(fuzzer.Fuzzer):
 
             if msr not in self.discovered_msrs.keys(): 
                 print(f'New MSR:{msr:08x} -> rdx:{rdx:016x} rax:{rax:016x}')
-                self.discovered_msrs[msr] = (rdx, rax)
+
+            self.discovered_msrs[msr] = (rdx, rax)
 
         rdx = self.rand.randint(0, (1 << 64) - 1)
         rax = self.rand.randint(0, (1 << 64) - 1)
@@ -97,7 +98,7 @@ class Fuzzer(fuzzer.Fuzzer):
                 mov rax, {rax:#x}
                 mov rdx, {rdx:#x}
                 wrmsr
-                REPLY_EMPTY
+                REPLY UInt32, rcx, UInt64, rdx, UInt64, rax
             """))
         code = self.code(self.context_save() + op + self.context_restore())
         self.guest.execute(code)

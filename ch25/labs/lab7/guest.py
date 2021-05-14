@@ -7,7 +7,7 @@ class Guest:
 
     def __enter__(self):
         self.proc = Popen(
-            'qemu-system-x86_64 -boot d -cdrom kernel_bios.iso -m 300M -serial stdio -enable-kvm',
+            'qemu-system-x86_64 -display none -boot d -cdrom kernel_bios.iso -m 300M -serial stdio -enable-kvm',
             stdout=PIPE, stdin=PIPE, shell=True
             )
         return self
