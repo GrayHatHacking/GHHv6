@@ -1,5 +1,4 @@
 FROM kalilinux/kali-rolling
-VOLUME ./labs/
 COPY ./labs /labs
 RUN apt update
 RUN apt install -y build-essential nasm bsdmainutils
