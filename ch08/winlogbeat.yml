@@ -1,3 +1,6 @@
+# Example for the Beats on WEF server of DetectionLab
+# Configuration version: 2021-05-31
+# Derived from https://github.com/cyberdefenders/DetectionLabELK/blob/d3e22053f737883b0c8c42224967e976bb988863/Vagrant/scripts/install-winlogbeat.ps1
 processors:
   - script:
       when.equals.winlog.channel: Security
