@@ -1,3 +1,7 @@
 #!/bin/bash
+cd terraform2
+./destroy2.sh
+cd ..
 cd terraform
-terraform destroy
+aws cloudformation delete-stack --stack-name UserDataSwap
+terraform destroy -auto-approve

@@ -1,6 +1,7 @@
 resource "random_string" "random" {
   length           = 8
   special          = false
+  upper            = false
 }
 
 variable "aws_region" {
@@ -27,7 +28,11 @@ default = "ghh"
 }
 
 variable "ip_allowlist" {
-  description = "A list of CIDRs that will be allowed to access the EC2 instances"
+  description = "A list of CIDRs that will be alowed to access the EC2 instances"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  default     = ["96.71.19.172/32","10.0.0.0/24"]
+}
+
+variable "dc_password" {
+  default = "GrayHatHack1ng!"
 }
