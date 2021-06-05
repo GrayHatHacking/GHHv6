@@ -16,7 +16,10 @@ aws iam create-group --group-name ghh-group | tee group-out.json
 aws iam add-user-to-group --user-name ghh --group-name ghh-group 
 aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess
 aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/IAMFullAccess
+aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonSSMFullAccess
 
 echo -e "[ghh]\naws_access_key_id = `jq .AccessKey.AccessKeyId key-out.json | cut -f 2 -d '"'`\naws_secret_access_key = `jq .AccessKey.SecretAccessKey key-out.json | cut -f 2 -d '"'`\n" >> ~/.aws/credentials
 
 echo "Provisioning complete"
+
