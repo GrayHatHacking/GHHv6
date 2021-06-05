@@ -4,8 +4,18 @@ resource "aws_s3_bucket" "ghh-secret-bucket" {
   acl = "private"
   force_destroy = true
   tags = {
-      Name = "ghh-secret-bucket-${random_string.random.id}"
-      Description = "This Buckets for Secrets only!"
+      Name = "ghh-secret-bucket"
+      Description = "This Buckets for Secrets only"
+  }
+}
+
+resource "aws_s3_bucket" "ghh-sam-bucket" {
+  bucket = "ghh-sam-bucket-${random_string.random.id}"
+  acl = "private"
+  force_destroy = true
+  tags = {
+      Name = "ghh-sam-bucket"
+      Description = "This Buckets for Secrets only"
   }
 }
 
