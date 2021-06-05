@@ -19,6 +19,8 @@ fi
 aws iam remove-user-from-group --user-name ghh --group-name ghh-group
 aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess
 aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/IAMFullAccess
+aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonSSMFullAccess
 aws iam delete-group --group-name ghh-group
 aws iam delete-access-key --user-name ghh  --access-key-id `jq .AccessKey.AccessKeyId  key-out.json | cut -f 2 -d '"'`
 aws iam delete-user --user-name ghh 
