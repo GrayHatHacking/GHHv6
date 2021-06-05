@@ -1,0 +1,61 @@
+---
+schemaVersion: "2.2"
+description: Perform a healthcheck on the target instance
+mainSteps:
+  - name: PerformHealthCheckWindows
+    action: aws:runPowerShellScript
+    precondition:
+      StringEquals:
+        - platformType
+        - Windows
+    inputs:
+      runCommand:
+        - "$Avg = (Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select Average).Average"
+        - "If ($Avg -gt 90) {"
+        - '  Throw "Instance is unhealthy- Linux"'
+        - "}"
+        - 'Write-Output "Instance is healthy - Windows"'
+  - name: PerformHealthCheckLinux
+    action: aws:runShellScript
+    precondition:
+      StringEquals:
+        - platformType
+        - Linux
+    inputs:
+      runCommand:
+        - "avg_cpu=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print int(usage)+1}')"
+        - "if (( avg_cpu > 90 )); then"
+        - '  echo "Instance is unhealthy - Linux"'
+        - "  exit 1"
+        - "fi"
+        - 'echo "Instance is healthy - Linux"'---
+schemaVersion: "2.2"
+description: Perform a healthcheck on the target instance
+mainSteps:
+  - name: PerformHealthCheckWindows
+    action: aws:runPowerShellScript
+    precondition:
+      StringEquals:
+        - platformType
+        - Windows
+    inputs:
+      runCommand:
+        - "$Avg = (Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select Average).Average"
+        - "If ($Avg -gt 90) {"
+        - '  Throw "Instance is unhealthy- Linux"'
+        - "}"
+        - 'Write-Output "Instance is healthy - Windows"'
+  - name: PerformHealthCheckLinux
+    action: aws:runShellScript
+    precondition:
+      StringEquals:
+        - platformType
+        - Linux
+    inputs:
+      runCommand:
+        - "avg_cpu=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print int(usage)+1}')"
+        - "if (( avg_cpu > 90 )); then"
+        - '  echo "Instance is unhealthy - Linux"'
+        - "  exit 1"
+        - "fi"
+        - 'echo "Instance is healthy - Linux"'

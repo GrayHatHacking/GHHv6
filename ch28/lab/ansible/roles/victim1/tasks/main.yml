@@ -1,0 +1,6 @@
+---
+- name: Get python3 going
+  raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3-minimal)
+
+- name: Get python3 pip
+  raw: test -e /usr/bin/pip3 || (apt -y update && apt install -y python3-pip)
