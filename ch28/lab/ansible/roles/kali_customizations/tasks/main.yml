@@ -1,0 +1,91 @@
+---
+- name: Make python3 default
+  alternatives:
+     name: python
+     path: /usr/bin/python3
+     link: /usr/bin/python
+     priority: 10
+
+- name: Install redboto
+  ansible.builtin.git:
+    repo: https://github.com/elitest/Redboto
+    dest: /opt/redboto
+
+- name: Prerequisites for Tools
+  ansible.builtin.pip:
+    name:
+      - cryptography
+      - boto3
+      - texttable
+
+- name: Checking for PACU
+  stat:
+    path: /opt/pacu
+  register: pacu_exists
+
+- name: Install PACU
+  block:
+    - name: Download PACU Release
+      get_url:
+        url: https://github.com/RhinoSecurityLabs/pacu/archive/refs/tags/v1.0.3.tar.gz
+        dest: /tmp/pacu.tar.gz
+
+    - name: Extract PACU
+      ansible.builtin.unarchive:
+        src: /tmp/pacu.tar.gz
+        dest: /opt
+        remote_src: yes
+
+    - name: Fixing PACU
+      raw: mv /opt/pacu-1.0.3 /opt/pacu
+      when: not pacu_exists.stat.exists
+
+    - name: Installing prereqs for PACU
+      raw: cd /opt/pacu; bash ./install.sh
+  when: not pacu_exists.stat.exists
+
+- name: Check for SAM
+  stat:
+    path: /opt/local/bin/sam
+  register: sam_exists
+
+- name: Install SAM
+  block:
+    - name: Install SAM CLI
+      get_url:
+        url: https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
+        dest: /tmp/aws-sam-cli.zip
+
+    - name: Extract CLI
+      ansible.builtin.unarchive:
+        src: /tmp/aws-sam-cli.zip
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Install AWS SAM
+      raw: /tmp/install
+      when: not sam_exists.stat.exists
+      ignore_errors: true
+  when: not sam_exists.stat.exists
+
+- name: Check for go
+  stat:
+    path: /opt/local/bin/go
+  register: go_exists
+
+- name: installing go
+  block:
+    - name: Install go
+      get_url:
+        url: https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
+        dest: /tmp/go1.16.4.linux-amd64.tar.gz
+
+    - name: Extract go
+      raw: cd /tmp; rm -rf /usr/local/go && tar -C /usr/local -xzf go1.16.4.linux-amd64.tar.gz
+
+    - name: Fix PATH
+      copy: 
+        dest: /etc/profile.d/Z98_custom_path.sh
+        content: 'PATH=$PATH:/usr/local/go/bin'
+  when: not go_exists.stat.exists
+  

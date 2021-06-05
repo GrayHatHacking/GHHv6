@@ -1,0 +1,7 @@
+kali:
+   hosts:
+     54.82.213.192:
+   vars:
+     ansible_user: kali
+     ansible_python_interpreter: /usr/bin/python3
+     ansible_ssh_private_key_file: /home/kali/.ssh/id_rsa

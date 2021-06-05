@@ -1,0 +1,16 @@
+---
+- hosts: kali 
+  become: yes
+  roles:
+    - kali_customizations
+  vars_files:
+    - vars/vars.yml
+    - vars/users.yml
+    
+- hosts: victim1
+  become: yes
+  roles:
+    - victim1
+  vars_files:
+    - vars/vars.yml
+    - vars/users.yml
