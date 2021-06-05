@@ -11,6 +11,11 @@
     repo: https://github.com/elitest/Redboto
     dest: /opt/redboto
 
+- name: Fix RedBoto
+  ansible.builtin.copy:
+    src: ../files/getEC2WinCreds.py
+    dest: /opt/redboto
+
 - name: Prerequisites for Tools
   ansible.builtin.pip:
     name:
