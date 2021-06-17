@@ -92,7 +92,5 @@ void kmain(const void *mbi) {
             if (OpExec == op_type.u32)
                 op_exec();
         }
-
-        send_msg(MTReply);
     }
 }
