@@ -30,7 +30,8 @@ class Fuzzer(fuzzer.Fuzzer):
         op = self.rand.choice((
             f"""mov dx, {port:#x}
                 in {reg}, dx
-                REPLY UInt16, rdx, UInt{size}, rax
+                PUT_VA UInt16, rdx, UInt{size}, rax
+                REPLY
             """,
             f"""mov dx, {port:#x}
                 mov {reg}, {self.rand.randint(0, (1 << size) - 1):#x}

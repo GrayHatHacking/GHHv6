@@ -131,13 +131,32 @@ CString equ 0x500
 List equ 0x600
 Nil equ 0x700
 
+MTReply equ 2
+MTOOB equ 3
+
 %macro OOB_PRINT 1+
   sysvcall put_va, 1, List, UInt32, 0, CString, %1, Nil
-  sysvcall send_msg, 3
+  sysvcall send_msg, MTOOB
 %endmacro
 
-%define REPLY_EMPTY sysvcall put_va, 0, List, Nil
+%macro REPLY 0
+  sysvcall send_msg, MTReply
+%endmacro
 
-%macro REPLY 1+
+%macro REPLY_EMPTY 0
+  sysvcall put_va, 0, List, Nil
+  REPLY
+%endmacro
+
+%macro PUT_VA 1+
   sysvcall put_va, 0, List, %1, Nil
 %endmacro
+
+%macro PUT_TP 1
+  sysvcall put_tp, 0, %1
+%endmacro
+
+%macro PUT_STRING 1
+  sysvcall put_cstring, 0, %1
+%endmacro
+

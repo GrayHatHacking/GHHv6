@@ -92,13 +92,15 @@ class Fuzzer(fuzzer.Fuzzer):
         op = self.rand.choice((
             f"""mov rcx, {rcx:#x}
                 rdmsr
-                REPLY UInt32, rcx, UInt64, rdx, UInt64, rax
+                PUT_VA UInt32, rcx, UInt64, rdx, UInt64, rax
+                REPLY
             """,
             f"""mov rcx, {rcx:#x}
                 mov rax, {rax:#x}
                 mov rdx, {rdx:#x}
                 wrmsr
-                REPLY UInt32, rcx, UInt64, rdx, UInt64, rax
+                PUT_VA UInt32, rcx, UInt64, rdx, UInt64, rax
+                REPLY
             """))
         code = self.code(self.context_save() + op + self.context_restore())
         self.guest.execute(code)
