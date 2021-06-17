@@ -74,5 +74,7 @@ void recv_msg();
     PUT_LIST(true, UInt32, OOBPrint, CString, fmt, __VA_ARGS__); \
     send_msg(MTOOB);                                             \
 })
+#define NAMED(n, t, v) LIST(CString, n, t, v)
+#define SYMBOL(n) NAMED(#n, UInt64, &n)
 
 #endif

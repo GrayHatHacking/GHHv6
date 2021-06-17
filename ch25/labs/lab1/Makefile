@@ -2,7 +2,7 @@ CFLAGS = -march=native -std=gnu99 -Wall -nostdlib -nostartfiles -nodefaultlibs -
 MKRESCUE = /usr/bin/grub-mkrescue
 GRUB_EFI_FLAGS = -d /usr/lib/grub/x86_64-efi/
 GRUB_BIOS_FLAGS = -d /usr/lib/grub/i386-pc/
-OBJECTS = main.o bootstrap.o common.o protocol.o
+OBJECTS = main.o bootstrap.o common.o
 
 all: kernel_efi.iso kernel_bios.iso
 

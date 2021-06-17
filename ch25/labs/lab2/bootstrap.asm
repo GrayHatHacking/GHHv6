@@ -44,6 +44,9 @@ add edi, 8
 dec ecx
 jnz init_pde
 mov dword [pdpt], pd + 7
+mov dword [pdpt+0x08], pd + 0x1007
+mov dword [pdpt+0x10], pd + 0x2007
+mov dword [pdpt+0x18], pd + 0x3007
 mov eax, pml4
 mov dword [eax], pdpt + 7
 mov cr3, eax        ; load page-tables
