@@ -3,13 +3,6 @@
 #include "protocol.h"
 #include "common.h"
 
-#define PTR_ADD(a, s) ((typeof(a))((unsigned long)a + s))
-#define ALIGN_UP(a, s) ((a + (typeof(a))s - 1) & ~((typeof(a))s - 1))
-#define NAMED(n, t, v) LIST(CString, n, t, v)
-#define SYMBOL(n) NAMED(#n, UInt64, &n)
-
-typedef enum {OpWrite = UINT32_C(0), OpExec} OpType;
-
 extern char __ehdr_start, _end; 
 
 static void put_symbols() {

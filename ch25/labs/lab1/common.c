@@ -1,7 +1,4 @@
 #include <stdint.h>
-#include <stdbool.h>
-#include <x86intrin.h>
-#include "protocol.h"
 
 static uint16_t SerialPort = 0x3f8; /* TODO: set it dynamically */
 
@@ -43,38 +40,4 @@ void read_serial(void *data, unsigned long len) {
         len -= 1;
         *ptr++ = inb(SerialPort);
     }
-}
-
-/* TODO: portable implementation supporting older CPUs */
-uint32_t crc32(const void *data, unsigned long len) {
-    const uint8_t *ptr = data;
-    uint32_t ret = 0xffffffff;
-
-    while (len--)
-        ret = _mm_crc32_u8(ret, *ptr++);
-
-    return ret ^ 0xffffffff;
-}
-
-void reset() {
-    struct {
-        uint16_t limit;
-        unsigned long base;
-    } __attribute__((packed)) idtr = {0};
-
-    /* Hard-reset by triple-fault */
-    __asm__ __volatile__(
-        "lidt %0\n"
-        "int $1" :: "m" (idtr));
-}
-
-void _reset_oob_buffer();
-
-void __assert(const char *msg, const char *file, int line) {
-    _reset_oob_buffer();
-    PUT_LIST(true, UInt32, OOBAssert, CString,
-            msg, CString, file, Int32, line
-    );
-    send_msg(MTOOB);
-    reset();
 }

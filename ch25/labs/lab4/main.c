@@ -3,10 +3,6 @@
 #include "protocol.h"
 #include "common.h"
 
-#define PTR_ADD(a, s) ((typeof(a))((unsigned long)a + s))
-#define ALIGN_UP(a, s) ((a + (typeof(a))s - 1) & ~((typeof(a))s - 1))
-#define NAMED(n, t, v) LIST(CString, n, t, v)
-#define SYMBOL(n) NAMED(#n, UInt64, &n)
 extern char __ehdr_start, _end; 
 
 static void put_symbols() {
@@ -53,6 +49,23 @@ static void put_mbi(const void *mbi) {
     }
 }
 
+static void op_write() {
+    Primitive_t addr;
+    Array_t array;
+    uint8_t *payload;
+    get_va(UInt64, &addr);
+    get_va(Array, &array, &payload);
+
+    for (uint32_t x = 0; x != array.count * (array.subtype & 0xff); x += 1)
+        ((uint8_t *)addr.u64)[x] = payload[x];
+}
+
+static void op_exec() {
+    Primitive_t addr;
+    get_va(UInt64, &addr);
+    ((void (*)())addr.u64)();
+}
+
 void kmain(const void *mbi) {
     setup_serial();
     OOB_PRINT("kmain at 0x%016lx", UInt64, &kmain);
@@ -61,5 +74,25 @@ void kmain(const void *mbi) {
     put_mbi(mbi);
     put_tp(false, Nil);
     send_msg(MTBoot);
-    __asm__ __volatile__("hlt");
+
+    while (1) {
+        recv_msg();
+        assert(List == get_tp());
+
+        for (TP prefix = get_tp(); Nil != prefix; prefix = get_tp()) {
+            Primitive_t op_type;
+
+            assert(UInt32 == prefix); /* requests must start with ReqType */
+            get_primitive(prefix, &op_type);
+            assert(OpWrite == op_type.u32 || OpExec == op_type.u32);
+
+            if (OpWrite == op_type.u32)
+                op_write();
+
+            if (OpExec == op_type.u32)
+                op_exec();
+        }
+
+        send_msg(MTReply);
+    }
 }

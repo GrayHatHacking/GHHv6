@@ -15,4 +15,7 @@ void reset();
 void __assert(const char *msg, const char *file, int line);
 #define assert(EX) (void)((EX) || (__assert(#EX, __FILE__, __LINE__),0))
 
+#define PTR_ADD(a, s) ((typeof(a))((unsigned long)a + s))
+#define ALIGN_UP(a, s) ((a + (typeof(a))s - 1) & ~((typeof(a))s - 1))
+
 #endif

@@ -1,6 +1,7 @@
 extern kmain
 global _start
 [bits 32]
+
 [section .bss]
 align 0x1000
 resb 0x2000
@@ -8,6 +9,7 @@ stack_top:
 pd: resb 0x1000 * 4 ; 4 PDs = maps 4GB
 pdpt: resb 0x1000   ; 1 PDPT
 pml4: resb 0x1000   ; 1 PML
+
 [section .data]
 gdt:                  ; minimal 64-bit GDT
 dq 0x0000000000000000
@@ -17,6 +19,7 @@ gdt_end:              ; TODO: TSS
 gdtr:
 dw gdt_end - gdt - 1  ; GDT limit
 dq gdt                ; GDT base
+
 [section .text]
 align 8, db 0
 ;; multiboot2 header
@@ -44,6 +47,9 @@ add edi, 8
 dec ecx
 jnz init_pde
 mov dword [pdpt], pd + 7
+mov dword [pdpt+0x08], pd + 0x1007
+mov dword [pdpt+0x10], pd + 0x2007
+mov dword [pdpt+0x18], pd + 0x3007
 mov eax, pml4
 mov dword [eax], pdpt + 7
 mov cr3, eax        ; load page-tables
@@ -63,4 +69,5 @@ mov ax, 0x10
 mov ds, ax
 mov es, ax
 mov ss, ax
+mov rdi, rbx        ; MULTIBOOT_MBI_REGISTER
 call kmain
