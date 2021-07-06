@@ -21,6 +21,7 @@ aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws
 aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
 aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/IAMFullAccess
 aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonSSMFullAccess
+aws iam detach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonRoute53FullAccess
 aws iam delete-group --group-name ghh-group
 aws iam delete-access-key --user-name ghh  --access-key-id `jq .AccessKey.AccessKeyId  key-out.json | cut -f 2 -d '"'`
 aws iam delete-user --user-name ghh 
