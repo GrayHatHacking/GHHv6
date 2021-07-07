@@ -30,7 +30,7 @@ default = "ghh"
 variable "ip_allowlist" {
   description = "A list of CIDRs that will be alowed to access the EC2 instances"
   type        = list(string)
-  default     = ["96.71.19.172/32","10.0.0.0/24"]
+  default     = ["0.0.0.0/0","10.0.0.0/24"]
 }
 
 variable "dc_password" {
