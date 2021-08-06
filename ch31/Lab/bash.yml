@@ -1,0 +1,27 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+   name: bash
+spec:
+  selector:
+    matchLabels:
+      app: bash
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: bash
+    spec:
+      containers:
+      - name: bash
+        image: ubuntu
+        command: [ "sh", "-c", "sleep 1d" ]
+        volumeMounts:
+        - mountPath: /host
+          name: noderoot
+        securityContext:
+          privileged: true
+      volumes:
+      - name: noderoot
+        hostPath:
+          path: /
