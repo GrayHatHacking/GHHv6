@@ -1,5 +1,4 @@
 #!/bin/bash
-kubectl delete -f container.yml
 kubectl delete -f badperms.yml
 kubectl delete -f bash.yml
 kubectl delete -f ncat.yml
@@ -13,6 +12,6 @@ kubectl delete -f 00-monitoring-ns.yaml
 
 kubectl delete -n sock-shop svc/front-end
 cd ../
-kubectl delete complete-demo.yaml
+kubectl delete -f complete-demo.yaml
 
 eksctl delete cluster --name=ghh --wait
