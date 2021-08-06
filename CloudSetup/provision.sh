@@ -19,6 +19,7 @@ aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws
 aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/IAMFullAccess
 aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonSSMFullAccess
 aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonRoute53FullAccess
+aws iam attach-group-policy --group-name ghh-group --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
 
 echo -e "[ghh]\naws_access_key_id = `jq .AccessKey.AccessKeyId key-out.json | cut -f 2 -d '"'`\naws_secret_access_key = `jq .AccessKey.SecretAccessKey key-out.json | cut -f 2 -d '"'`\n" >> ~/.aws/credentials
 
