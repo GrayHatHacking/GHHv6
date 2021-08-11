@@ -1,4 +1,4 @@
-# Gray Hat Hacking v6 Chapter 20
+# Gray Hat Hacking v6 Chapter 17
 This directory contains all the components necessary for Chapter 17.
 
 ## Lab Information  
