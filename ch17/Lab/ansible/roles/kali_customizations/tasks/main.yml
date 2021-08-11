@@ -1,0 +1,55 @@
+---
+- name: Make  python3 default
+  alternatives:
+     name: python
+     path: /usr/bin/python3
+     link: /usr/bin/python
+     priority: 10
+- name : disable apache2 startup
+  systemd: 
+     enabled: no
+     name: apache2
+     state: stopped
+- name : disable smbdstartup
+  systemd: 
+     enabled: no
+     name: smbd
+     state: stopped
+- name: Checkout responder
+  git:
+     repo: https://github.com/lgandx/Responder.git
+     dest: /home/kali/responder
+- name: checkout evilwinrm
+  git:
+     repo: https://github.com/Hackplayers/evil-winrm.git
+     dest: /home/kali/evil-winrm
+- name: checkout impacket
+  git:
+     repo: https://github.com/SecureAuthCorp/impacket.git
+     dest: /home/kali/impacket
+- name: checkout PowersharpPack
+  git:
+     repo: https://github.com/S3cur3Th1sSh1t/PowerSharpPack.git
+     dest: /home/kali/SharpPack
+- name: checkout PowerSploit
+  git:
+     repo: https://github.com/PowerShellMafia/PowerSploit.git
+     dest: /home/kali/PowerSploit
+
+- name: Fix PowerSploit permissions
+  shell: find /home/kali/PowerSploit -type f -exec chmod 644 {}\;
+
+- name: install evil-winrm gem
+  gem:
+          name: evil-winrm
+          user_install: no
+          version: 2.4
+          #- name: Make Binaries dir
+          #file:
+          #path: /home/kali/Binaries
+          #state: directory
+          #- name: Copy Binaries dir from Util
+          #shell: smbget -U 'Administrator%GrayHatHack1ng!' -R -n smb://10.0.0.30/C$/Sharp/Binaries
+          #args:
+          #chdir: /home/kali/Binaries
+
