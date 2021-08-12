@@ -1,3 +1,4 @@
+import sys
 import ehci
 import construct as c
 from pwn import *
@@ -333,6 +334,11 @@ class Exploit(ehci.Session):
 
 
 if __name__ == "__main__":
-    Guest.debugger = ''
+    try:
+        if sys.argv[1] == 'nodebug':
+            Guest.debugger = ''
+    except:
+        pass
+
     Exploit(Guest).run()
 
