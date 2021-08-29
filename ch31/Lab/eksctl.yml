@@ -1,0 +1,19 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: ghh
+  region: us-east-1
+  version: '1.20'
+
+managedNodeGroups:
+  - name: eks-ghh
+    instanceType: t2.large
+    desiredCapacity: 1
+    minSize: 0
+    maxSize: 1
+    volumeSize: 30
+    ssh:
+      allow: true
+      publicKeyPath: '~/.ssh/id_rsa.pub'
+
+availabilityZones: ['us-east-1a', 'us-east-1b', 'us-east-1c', 'us-east-1d']
