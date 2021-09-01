@@ -29,7 +29,7 @@ then
 fi
 
 echo "[+] Running eksctl to build a cluster"
-eksctl create cluster -f eksctl.yml
+eksctl create cluster --profile ghh -f eksctl.yml
 
 kubectl apply -f container.yml
 kubectl apply -f badperms.yml
