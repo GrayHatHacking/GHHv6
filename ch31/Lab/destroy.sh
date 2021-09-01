@@ -14,4 +14,4 @@ kubectl delete -n sock-shop svc/front-end
 cd ../
 kubectl delete -f complete-demo.yaml
 
-eksctl delete cluster --name=ghh --wait
+eksctl delete cluster --name=ghh --wait --profile ghh
