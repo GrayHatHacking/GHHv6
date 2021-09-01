@@ -1,0 +1,29 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:*",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "ssm:GetParameter",
+                "ssm:GetParameters"
+            ],
+            "Resource": [
+                "arn:aws:ssm:*:ACCTNO:parameter/aws/*",
+                "arn:aws:ssm:*::parameter/aws/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+             "Action": [
+               "kms:CreateGrant",
+               "kms:DescribeKey"
+             ],
+             "Resource": "*",
+             "Effect": "Allow"
+        }
+    ]
+}
