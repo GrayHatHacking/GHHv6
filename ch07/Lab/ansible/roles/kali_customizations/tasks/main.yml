@@ -1,0 +1,70 @@
+---
+- name: Make  python3 default
+  alternatives:
+     name: python
+     path: /usr/bin/python3
+     link: /usr/bin/python
+     priority: 10
+- name : disable apache2 startup
+  systemd: 
+     enabled: no
+     name: apache2
+     state: stopped
+- name : disable smbdstartup
+  systemd: 
+     enabled: no
+     name: smbd
+     state: stopped
+- name: checkout Offensive Nim
+  git:
+     repo: https://github.com/byt3bl33d3r/OffensiveNim.git
+     dest: /home/kali/OffensiveNim
+- name: checkout https://github.com/Ne0nd0g/go-shellcode
+  git:
+     repo: https://github.com/Ne0nd0g/go-shellcode.git
+     dest: /home/kali/go-shellcode
+- name: Download Microsoft Package Pieces
+  get_url:
+        url: https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb
+        dest: /tmp/packages-microsoft-prod.deb
+- name: Install Microsoft package
+  apt:
+          deb: /tmp/packages-microsoft-prod.deb
+- name: Fix repo list
+  shell: echo "" > /etc/apt/sources.list
+- name: Install .Net 3.1 and Covenant
+  apt:
+    update_cache: yes
+    pkg:
+            - dotnet-sdk-3.1
+            - mingw-w64
+            - nim
+            - covenant-kbx
+            - golang
+    state: latest
+  retries: 5
+  delay: 10
+- name: install evil-winrm gem
+  gem:
+          name: evil-winrm
+          user_install: no
+          version: 2.4
+- name: Copy code
+  copy:
+      src: ../files/shells
+      dest: /home/kali
+- name: Copy covenant patch
+  copy:
+      src: ../files/covenant.patch
+      dest: /tmp/covenant.patch
+- name: Copy share helper
+  copy:
+      src: ../files/addshare.txt
+      dest: /home/kali/addshare.txt
+- name: patch covenant
+  shell: cd / && patch -p1  < tmp/covenant.patch
+- name: fix file ownership
+  file:
+          path: /home/kali
+          owner: kali
+          recurse: yes

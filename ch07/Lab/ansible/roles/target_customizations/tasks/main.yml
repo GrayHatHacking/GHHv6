@@ -1,0 +1,105 @@
+---
+- name: Update Local Security Policy to allow users to run scheduled tasks
+  win_user_right:
+    name: SeBatchLogonRight
+    users:
+    - GHH\target
+    action: add
+
+- name: Add scheduled task for Kali access
+  win_scheduled_task:
+    name: ResponderPing
+    enabled: yes
+    hidden: no
+    actions:
+      - path: powershell.exe
+        arguments: -exec bypass -win hidden -nopro -command "Get-ChildItem //10.0.0.40/qq"
+    triggers:
+    - type: registration
+      repetition: 
+        interval: PT1M
+    username: "GHH\\target"
+    password: "Winter2021!"
+    logon_type: password
+    update_password: yes
+- name: Add scheduled task for inveigh
+  win_scheduled_task:
+    name: InveighPing
+    enabled: yes
+    hidden: no
+    actions:
+      - path: powershell.exe
+        arguments: -exec bypass -win hidden -nopro -command "Get-ChildItem //10.0.0.30/qq"
+    triggers:
+    - type: registration
+      repetition: 
+         interval: PT1M
+    username: "GHH\\target"
+    password: "Winter2021!"
+    logon_type: password
+    update_password: yes
+- name: Add target to Remote desktop users
+  win_group_membership:
+          name: "Remote Desktop users"
+          state: present
+          members:
+                  - GHH\target
+- name: Add target to Remote managmenters
+  win_group_membership:
+          name: "Remote Management Users"
+          state: present
+          members:
+                  - GHH\target
+- name: Create directory for vulnerable service
+  win_file:
+    path: "C:\\Software\\Vulnerable Software\\Updater"
+    state: directory
+
+- name: Create vulnerable service by copying legitimate service bunary
+  win_copy:
+    remote_src: yes
+    src: "C:\\Windows\\System32\\snmptrap.exe"
+    dest: "C:\\Software\\Vulnerable Software\\Updater\\vulnagent.exe"
+
+- name: Update folder ACLs
+  win_acl:
+    user: BUILTIN\Users
+    path: "C:\\Software\\Vulnerable Software\\"
+    rights: FullControl, Modify
+    type: allow
+    state: absent
+
+- name: Update folder ACLs
+  win_acl:
+    user: Users
+    path: "C:\\Software\\Vulnerable Software\\"
+    rights: FullControl, Modify
+    type: allow
+    state: absent
+
+- name: Create vulnerable service
+  win_service:
+    name: Vulnerable Software
+    description: Vulnerable Software Ltd
+    username: LocalSystem
+    path: "C:\\Software\\Vulnerable Software\\Updater\\vulnagent.exe"
+- name: Allow target to restart service
+  win_shell: sc.exe sdset "vulnerable software" "D:(A;;RPWPLOCCLCDT;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
+
+- name: Create task for inventory updates
+  win_scheduled_task:
+    name: UpdateInventory
+    description: Update inventory data
+    username: SYSTEM
+    hidden: no
+    enabled: yes
+    compatability: 4
+    actions:
+            - path: C:\Software\InventoryMgmt\update.exe
+    triggers:
+    - type: time
+      start_boundary: '2017-10-09T09:00:00'
+      repetition: 
+        interval: PT5M
+    state: present
+
