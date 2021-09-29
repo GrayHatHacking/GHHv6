@@ -1,0 +1,28 @@
+---
+- name: install dotnet core
+  win_feature:
+          name: Net-Framework-Core
+          state: present
+- name: chocolatey install git
+  win_chocolatey:
+          name: git
+          state: latest
+- name: chocolatey install Visual Studio
+  win_chocolatey:
+          name: visualstudio2019community
+          package_params: "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.Net.Component.3.5.DeveloperTools"
+          state: latest
+- name: Reboot to fix stuff
+  win_reboot:
+- name: Disable realtime monitoring
+  win_shell:  Set-MpPreference -DisableRealtimeMonitoring $true
+- name: Enable File sharing
+  win_shell:  netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
+- name: Git checkout of C# tools
+  win_shell: 'git clone https://github.com/sussurro/SharpAllTheThings.git c:\Sharp'
+- name: Build C# tools.... This will take a while
+  win_shell: C:\Sharp\SharpBuilderAll.bat
+  args:
+    chdir: C:\Sharp
+
+

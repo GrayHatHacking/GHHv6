@@ -1,0 +1,13 @@
+---
+#domain_users:
+#- { name : "target", password : "Winter2021" , groups : "" }
+#- { name : "ghhadmin" , password : "GrayHat6" , groups : "Domain Admins" }
+domain_users:
+  - name : "target"
+    password : "Winter2021!" 
+    groups : "Domain Users" 
+  - name : "ghhadmin" 
+    password : "GrayHat6!" 
+    groups : "Domain Admins" 
+
+
