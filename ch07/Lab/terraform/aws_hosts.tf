@@ -88,29 +88,3 @@ resource "aws_instance" "ghh_target" {
 }
 
 
-resource "aws_instance" "ghh_util" {
-  ami           = data.aws_ami.ghh-2016.id
-  instance_type = "t2.large"
-
-
-  key_name = var.key_name
-
-  subnet_id = aws_subnet.this.id
-
-  vpc_security_group_ids = [aws_security_group.ghh_windows.id]
-  associate_public_ip_address = true
-  get_password_data = "true"
-  private_ip = "10.0.0.30"
-  user_data_base64 = base64encode(local.dc-userdata)
-
-
-  root_block_device {
-        volume_size = 200 
-  }
-
-
-
-  tags = {
-    Name = "ghh-target"
-  }
-}

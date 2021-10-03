@@ -11,10 +11,6 @@ The following VMs will be setup for this lab:
   - IP: 10.0.0.20
   - Target User: target
   - Target Password: Winter2021!
-- Util Computer
-  - IP: 10.0.0.30
-  - User: Administrator
-  - Password: GrayHathack1ing!
 - Kali Computer
   - IP: 10.0.0.40
   - User: kali
@@ -48,12 +44,6 @@ should not be shut down
 This is the system you will be attacking during the lab. It should be the only system besides
 the Kali box that you would need to interact with in the lab environment unless you
 do additional work on your own.
-
-### Util box
-This box builds a number of tools that we will build in the lab so you can have
-experience with the latest versions of the tools.  If you do not want to use this box
-for experimentation, building tools, or other tasks it can be destroyed after
-the lab is provisioned. There is a terminate-util.sh script for this task.
 
 ### Kali box
 This is the Kali attack system that will be used in the lab. 
