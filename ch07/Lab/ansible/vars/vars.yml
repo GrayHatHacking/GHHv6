@@ -1,0 +1,7 @@
+windows_domain_controller_info:
+   dns_domain_name: ghh.local
+   domain_admin_password: GrayHatHack1ng!
+   domain_admin_user: Administrator@ghh.local
+   safe_mode_password: GrayHatHack1ng!
+   state: domain_controller
+   ip: 10.0.0.10

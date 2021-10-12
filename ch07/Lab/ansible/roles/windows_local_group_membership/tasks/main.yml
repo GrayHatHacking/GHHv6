@@ -1,0 +1,8 @@
+---
+- name: add users to local groups for remote login
+  win_group_membership:
+          name: "Remote Desktop Users"
+          state: present
+          members: 
+                - GHH\target
+

@@ -1,0 +1,8 @@
+[ghh]
+   comment = GHH Share
+   browseable = yes
+   path = /tmp
+   printable = no
+   guest ok = yes
+   read only = yes
+   create mask = 0700
