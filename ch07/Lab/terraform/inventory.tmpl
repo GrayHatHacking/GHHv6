@@ -1,0 +1,9 @@
+${cat}:
+   hosts:
+%{for addr in ip_addrs ~}
+     ${addr}:
+%{endfor ~}
+   vars:
+%{for var in vars ~}
+     ${var}
+%{endfor ~}

@@ -1,0 +1,23 @@
+---
+- name: Gather facts from new server
+  setup:
+    filter: ansible_default_ipv4.address
+                
+- name: setup DNS properly
+  win_dns_client:
+    ipv4_addresses: 10.0.0.10
+
+- name: join domain
+  win_domain_membership:
+    dns_domain_name: "{{ windows_domain_controller_info['dns_domain_name'] }}"
+    domain_admin_user: "{{ windows_domain_controller_info['domain_admin_user'] }}"
+    domain_admin_password: "{{ windows_domain_controller_info['domain_admin_password'] }}"
+    hostname: ws20
+    state: domain
+  register: domain_state
+
+- name: reboot | Rebooting Server
+  win_reboot:
+    reboot_timeout_sec: 3600
+    shutdown_timeout_sec: 3600
+
