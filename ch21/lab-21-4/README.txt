@@ -4,9 +4,9 @@ Note2: The firmware was renamed to use underscore instead of spaces for convenie
 1. Copy the firmware into FirmAE directory
 
 2. From the FirmAE directory, check the network.
-sudo -E ./run.sh -c netgear WNAP320-Firmware-Version-2.0.3.zip
+sudo -E ./run.sh -c netgear WNAP320_Firmware_Version_2.0.3.zip
 
 3. Emulate the firmware in debug mode.  This affords the user with more control over the process.
-sudo -E ./run.sh -d netgear WNAP320-Firmware-Version-2.0.3.zip
+sudo -E ./run.sh -d netgear WNAP320_Firmware_Version_2.0.3.zip
 
 4. At this point, you can use a browser and verify the system is operational.  The emulation will stop one you exit the menu (6).
