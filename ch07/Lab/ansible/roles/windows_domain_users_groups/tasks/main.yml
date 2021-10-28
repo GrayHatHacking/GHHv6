@@ -1,0 +1,37 @@
+---
+- name: Disable domain password complexity
+  win_shell: 'Get-ADDefaultDomainPasswordPolicy -Current LoggedOnUser | Set-ADDefaultDomainPasswordPolicy -ComplexityEnabled $false -MinPasswordAge 0  -MaxPasswordAge 0 -MinPasswordLength 3'
+- name: Add Windows Users
+  win_domain_user:
+    name: "{{ item.name }}"
+    passsword: "{{ item.password }}"
+    groups : "{{ item.groups }}"
+    password_never_expires: true
+    state: present
+    enabled: no
+    account_disabled: no
+  with_items: 
+    - "{{ domain_users }}"
+- name: Set Password (workaround because not working) 
+  win_shell: '$pw = "{{ item.password}}" | ConvertTo-SecureString -AsPlainText -Force; Set-ADAccountPassword -Identity {{ item.name }} -NewPassword $pw'
+  with_items: 
+    - "{{ domain_users }}"
+- name: Enable windows users
+  win_domain_user:
+    name: "{{ item.name }}"
+    state: present
+    enabled: yes
+  with_items: 
+    - "{{ domain_users }}"
+- name: chocolatey install 7zip
+  win_chocolatey:
+          name: 7zip
+          state: latest
+- name: chocolatey install git
+  win_chocolatey:
+          name: git
+          state: latest
+- name: create temp dir
+  win_file:
+          path: c:\temp
+          state: directory

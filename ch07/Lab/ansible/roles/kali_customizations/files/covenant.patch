@@ -1,0 +1,10 @@
+--- /usr/share/kaboxer/covenant.kaboxer.orig	2021-09-12 19:28:35.392506176 +0000
++++ /usr/share/kaboxer/covenant.kaboxer.yaml	2021-09-12 18:54:26.224293412 +0000
+@@ -26,6 +26,7 @@
+     publish_ports:
+       - 7443
+       - 443
++      - 80
+     before_run_script: |
+       #!/bin/sh
+       set -e
