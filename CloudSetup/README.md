@@ -1,3 +1,5 @@
+The following instructions are for all AWS labs in this book.  There are separate instructions for Azure, inside Chapter 8, of the book.
+
 ###### Cloud Setup Instructions
 1. Signup for an AWS account   
 Go to https://aws.amazon.com and signup for a new account
