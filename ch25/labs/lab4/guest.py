@@ -1,3 +1,6 @@
+#    SPDX-FileCopyrightText: 2021 Daniel Fernandez Kuehr <daniel.kuehr@tacitosecurity.com>
+#    SPDX-License-Identifier: GPL-3.0-or-later
+
 import protocol
 from enum import Enum
 from subprocess import Popen, PIPE
@@ -16,7 +19,8 @@ class Guest:
 
     def __enter__(self):
         self.proc = Popen(
-            'exec qemu-system-x86_64 -display none -boot d -cdrom kernel_bios.iso -m 300M -serial stdio -enable-kvm',
+            ('exec qemu-system-x86_64 -display none -boot d '
+             '-cdrom kernel_bios.iso -m 300M -serial stdio -enable-kvm'),
              stdout=PIPE, stdin=PIPE, shell=True
         )
         return self

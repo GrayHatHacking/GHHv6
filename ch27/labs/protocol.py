@@ -1,3 +1,6 @@
+#    SPDX-FileCopyrightText: 2021 Daniel Fernandez Kuehr <daniel.kuehr@tacitosecurity.com>
+#    SPDX-License-Identifier: GPL-3.0-or-later
+
 import construct as c
 import fixedint as f
 from crc32c import crc32c

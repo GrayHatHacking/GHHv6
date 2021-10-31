@@ -1,3 +1,6 @@
+#    SPDX-FileCopyrightText: 2021 Daniel Fernandez Kuehr <daniel.kuehr@tacitosecurity.com>
+#    SPDX-License-Identifier: GPL-3.0-or-later
+
 from functools import total_ordering
 import bisect
 import portion as P
@@ -41,7 +44,11 @@ class RemoteMemory:
 class PageAlloc:
     def __init__(self, mem, data_len):
         self.mem = mem
-        self.data_len = (data_len & ~0xfff) + (0x1000 * (data_len & 0xfff)) 
+        self.data_len = data_len & ~0xfff
+        
+        if data_len & 0xfff:
+            self.data_len += 0x1000
+            
         self.ptr = self.mem.alloc(self.data_len + 0x1000)
 
     def start(self):
