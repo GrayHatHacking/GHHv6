@@ -12,9 +12,9 @@ class OOBType(Enum):
     Assert = 1
 
 class Session:
-    debug = True
+    debug = False
     retry_exceptions = True
-    timeout = 3
+    timeout = 0
 
     def __init__(self, guest_cls=Guest):
         self.guest_cls = guest_cls
