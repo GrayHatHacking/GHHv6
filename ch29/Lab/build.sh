@@ -8,9 +8,8 @@ cd ..
 
 echo "[+] Using ansible to lay down the vulns"
 cd ansible
-ansible-playbook -i inventory ch28_playbook.yml
+ansible-playbook -i inventory ch29_playbook.yml
 cd ..
 
 echo "[+]You can now login to kali, here is the inventory files with IP addresses"
 cat ansible/inventory/*
-
