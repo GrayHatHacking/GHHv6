@@ -6,7 +6,7 @@ void vuln() {
     char buff[128];
     printf("Overflows with 128 bytes: ");
     fflush(stdout);
-    read(0, buff, 0x2000);
+    read(0, buff, 2000);
 }
 
 int main(int argc, char **argv) {
